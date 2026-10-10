@@ -12,10 +12,11 @@
 </head>
 <body>
   <div class="app-shell">
+    <button class="nav-backdrop" id="nav-backdrop" aria-label="Close navigation" type="button" tabindex="-1"></button>
     <aside class="sidebar">
       <div class="brand" aria-label="LEAN 30 Fitness Tracker"><span class="brand-mark">L<span class="brand-slash">/</span></span><span>LEAN<span class="brand-dot">.</span><small>THIRTY DAY PROJECT</small></span></div>
       <div class="sidebar-caption">YOUR WORKSPACE</div>
-      <nav class="side-nav" aria-label="Main navigation">
+      <nav class="side-nav" id="side-navigation" aria-label="Main navigation">
         <button class="nav-btn active" data-page="overview"><span class="nav-icon">◫</span> Overview</button>
         <button class="nav-btn" data-page="daily"><span class="nav-icon">▣</span> Daily tracker</button>
         <button class="nav-btn" data-page="training"><span class="nav-icon">⌁</span> Training plan</button>
@@ -34,7 +35,7 @@
         <div class="topbar-actions">
           <span class="date-small" id="today-label"></span>
           <button class="outline-btn sm" id="backup-btn" title="Download all tracker data as JSON">↓ Backup</button>
-          <button class="icon-btn mobile-menu" id="mobile-menu" aria-label="Open navigation">☰</button>
+          <button class="icon-btn mobile-menu" id="mobile-menu" aria-label="Open navigation" aria-expanded="false" aria-controls="side-navigation" type="button">☰</button>
         </div>
       </header>
 
@@ -50,6 +51,12 @@
             <div class="hero-emblem" aria-hidden="true"><span>30</span><small>DAYS</small></div>
           </div>
 
+          <section class="today-pulse" aria-label="Today's status">
+            <div class="pulse-intro"><span class="eyebrow">TODAY AT A GLANCE</span><h2 id="pulse-heading">Make every day count.</h2><p id="pulse-date">Track your progress in one place</p></div>
+            <div class="pulse-stat"><div class="pulse-line"><span>Protein</span><strong id="pulse-protein">— / 160 g</strong></div><div class="pulse-track"><div class="pulse-fill protein-fill" id="pulse-protein-bar"></div></div></div>
+            <div class="pulse-stat"><div class="pulse-line"><span>Steps</span><strong id="pulse-steps">— / 7,000</strong></div><div class="pulse-track"><div class="pulse-fill steps-fill" id="pulse-steps-bar"></div></div></div>
+            <button class="pulse-cta" data-goto="daily">Open daily log <span aria-hidden="true">↗</span></button>
+          </section>
           <div class="section-heading"><div><p class="overline">THE DAILY STANDARD</p><h2>Targets that move the needle</h2></div><span class="pill">81 KG STARTING POINT</span></div>
           <div class="metric-grid">
             <article class="metric-card"><span class="metric-icon lime">P</span><p>PROTEIN</p><strong><span id="target-protein">160</span> <small>g</small></strong><div class="metric-sub">Daily muscle-building target</div><div class="metric-line green"></div></article>
@@ -81,8 +88,8 @@
           <div class="two-col form-columns">
             <article class="panel"><div class="panel-heading"><div><p class="overline">01 / NUTRITION</p><h3>Fuel & macros</h3></div><span class="panel-meta" id="log-date"></span></div>
               <div class="input-grid">
-                <label class="form-field"><span>Protein <small>g · target 160</small></span><input inputmode="decimal" type="number" min="0" max="500" step="1" data-field="protein" placeholder="0"></label>
-                <label class="form-field"><span>Calories <small>kcal · target 2300</small></span><input inputmode="decimal" type="number" min="0" max="10000" step="1" data-field="calories" placeholder="0"></label>
+                <label class="form-field"><span>Protein <small>g · target <span id="daily-protein-target">160</span></small></span><input inputmode="decimal" type="number" min="0" max="500" step="1" data-field="protein" placeholder="0"></label>
+                <label class="form-field"><span>Calories <small>kcal · target <span id="daily-calories-target">2300</span></small></span><input inputmode="decimal" type="number" min="0" max="10000" step="1" data-field="calories" placeholder="0"></label>
                 <label class="form-field"><span>Water <small>litres</small></span><input inputmode="decimal" type="number" min="0" max="15" step="0.1" data-field="water" placeholder="0.0"></label>
                 <label class="form-field"><span>Sleep <small>hours</small></span><input inputmode="decimal" type="number" min="0" max="24" step="0.1" data-field="sleep" placeholder="0.0"></label>
               </div>
@@ -91,7 +98,7 @@
             </article>
             <article class="panel"><div class="panel-heading"><div><p class="overline">02 / MOVEMENT</p><h3>Training & activity</h3></div><span class="tag" id="planned-workout">PUSH A</span></div>
               <div class="input-grid">
-                <label class="form-field"><span>Steps <small>target 7,000</small></span><input inputmode="numeric" type="number" min="0" max="100000" step="100" data-field="steps" placeholder="0"></label>
+                <label class="form-field"><span>Steps <small>target <span id="daily-steps-target">7,000</span></small></span><input inputmode="numeric" type="number" min="0" max="100000" step="100" data-field="steps" placeholder="0"></label>
                 <label class="form-field"><span>Body weight <small>kg · optional</small></span><input inputmode="decimal" type="number" min="0" max="300" step="0.1" data-field="weight" placeholder="81.0"></label>
                 <label class="form-field"><span>Waist <small>cm · weekly</small></span><input inputmode="decimal" type="number" min="0" max="250" step="0.1" data-field="waist" placeholder="Optional"></label>
                 <label class="form-field"><span>Session effort <small>RPE 1–10</small></span><input inputmode="numeric" type="number" min="1" max="10" step="1" data-field="rpe" placeholder="7"></label>
@@ -100,6 +107,7 @@
             </article>
           </div>
           <article class="panel notes-panel"><div class="panel-heading"><div><p class="overline">03 / REFLECTION</p><h3>One sentence about today</h3></div><span class="saved-status" id="saved-state">Saved locally</span></div><textarea data-field="notes" rows="3" placeholder="Energy levels, top sets, meals, small wins, or what to improve tomorrow..."></textarea></article>
+          <p id="form-feedback" class="form-feedback" aria-live="polite"></p>
           <div class="daily-actions"><button class="primary-btn" id="mark-complete">✓ Mark day as logged</button><button class="outline-btn" id="clear-day">Clear this day's entries</button><span class="helper-text">Logging a day does not require hitting every target.</span></div>
         </section>
 
@@ -112,7 +120,7 @@
 
         <section id="page-nutrition" class="page" aria-label="Nutrition guide">
           <div class="page-head"><div><p class="overline">SIMPLE FOOD. CONSISTENT RESULTS.</p><h1>Eat for lean muscle<span class="title-accent">.</span></h1><p>A practical Indian meal framework with regular curd, not expensive Greek yogurt twice a day.</p></div></div>
-          <div class="nutrition-lead"><div><span>THE STARTING POINT</span><strong>2,300 <small>kcal/day</small></strong><p>A provisional calorie target. Refine after 2–3 weeks using waist, strength, and average weight.</p></div><div class="macro-breakdown"><div><b>160 g</b><span>PROTEIN</span></div><div><b>65 g</b><span>FAT</span></div><div><b>~270 g</b><span>CARBS</span></div></div></div>
+          <div class="nutrition-lead"><div><span>THE STARTING POINT</span><strong><span id="nutrition-calories">2,300</span> <small>kcal/day</small></strong><p>A provisional calorie target. Refine after 2–3 weeks using waist, strength, and average weight.</p></div><div class="macro-breakdown"><div><b id="nutrition-protein">160 g</b><span>PROTEIN</span></div><div><b>65 g</b><span>EXAMPLE FAT</span></div><div><b id="nutrition-carbs">~270 g</b><span>EST. CARBS</span></div></div></div>
           <div class="two-col nutrition-grid">
             <article class="panel"><div class="panel-heading"><div><p class="overline">BUDGET-FRIENDLY PROTEIN</p><h3>Sample food structure</h3></div><span class="pill light-pill">ADJUST PORTIONS</span></div><div class="food-list">
               <div class="food-row"><span class="meal-num">01</span><div><strong>Breakfast</strong><p>4 eggs + 250 ml toned milk + small measured seed portion</p></div><b>~35 g</b></div>
@@ -130,7 +138,7 @@
 
         <section id="page-progress" class="page" aria-label="Progress">
           <div class="page-head"><div><p class="overline">MEASURE WHAT MATTERS.</p><h1>Progress & trends<span class="title-accent">.</span></h1><p>Use trends across weeks, not a single weigh-in, to adjust your plan.</p></div><button class="outline-btn" id="export-csv">↓ Export CSV</button></div>
-          <div class="metric-grid progress-cards"><article class="metric-card"><p>DAYS LOGGED</p><strong id="stat-days">0 <small>/ 30</small></strong><div class="metric-sub">Your consistency score</div></article><article class="metric-card"><p>AVERAGE PROTEIN</p><strong id="stat-protein">—</strong><div class="metric-sub">Grams on days entered</div></article><article class="metric-card"><p>WORKOUTS COMPLETED</p><strong id="stat-workouts">0</strong><div class="metric-sub">Including recovery days logged</div></article><article class="metric-card"><p>AVERAGE STEPS</p><strong id="stat-steps">—</strong><div class="metric-sub">On days with step data</div></article></div>
+          <div class="metric-grid progress-cards"><article class="metric-card"><p>DAYS LOGGED</p><strong id="stat-days">0 <small>/ 30</small></strong><div class="metric-sub">Your consistency score</div></article><article class="metric-card"><p>AVERAGE PROTEIN</p><strong id="stat-protein">—</strong><div class="metric-sub">Grams on days entered</div></article><article class="metric-card"><p>WORKOUTS COMPLETED</p><strong id="stat-workouts">0</strong><div class="metric-sub">Strength sessions (not recovery)</div></article><article class="metric-card"><p>AVERAGE STEPS</p><strong id="stat-steps">—</strong><div class="metric-sub">On days with step data</div></article></div>
           <div class="two-col chart-grid"><article class="panel chart-card"><div class="panel-heading"><div><p class="overline">TREND / BODY WEIGHT</p><h3>Weight, kg</h3></div></div><div id="weight-chart" class="chart-zone"></div></article><article class="panel chart-card"><div class="panel-heading"><div><p class="overline">TREND / WAIST</p><h3>Waist, cm</h3></div></div><div id="waist-chart" class="chart-zone"></div></article></div>
           <article class="panel weekly-panel"><div class="panel-heading"><div><p class="overline">THE BIGGER PICTURE</p><h3>Weekly check-in</h3></div><span class="panel-meta">Auto-calculated from your logs</span></div><div class="table-scroll"><table class="weekly-table"><thead><tr><th>PERIOD</th><th>DAYS LOGGED</th><th>AVG WEIGHT</th><th>LATEST WAIST</th><th>AVG PROTEIN</th><th>WORKOUTS</th></tr></thead><tbody id="weekly-rows"></tbody></table></div></article>
           <article class="panel settings-panel"><div class="panel-heading"><div><p class="overline">CONTROL CENTER</p><h3>Challenge settings & backups</h3></div></div>
@@ -139,9 +147,16 @@
           </article>
         </section>
       </main>
-      <footer class="app-footer"><span>LEAN / 30</span><span>Built for sustainable strength & body recomposition</span><span>PRIVATE • OFFLINE-FIRST</span></footer>
+      <footer class="app-footer"><span>LEAN / 30</span><span>Built for sustainable strength & body recomposition</span><span>LOCAL DATA • EXPORT REGULARLY</span></footer>
     </div>
   </div>
+  <nav class="bottom-nav" aria-label="Mobile navigation">
+    <button class="nav-btn active" data-page="overview"><span aria-hidden="true">◫</span>Home</button>
+    <button class="nav-btn" data-page="daily"><span aria-hidden="true">▣</span>Log</button>
+    <button class="nav-btn" data-page="training"><span aria-hidden="true">⌁</span>Train</button>
+    <button class="nav-btn" data-page="nutrition"><span aria-hidden="true">◉</span>Food</button>
+    <button class="nav-btn" data-page="progress"><span aria-hidden="true">↗</span>Trends</button>
+  </nav>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>
