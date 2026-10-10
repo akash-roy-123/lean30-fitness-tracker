@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7f1">
+  <meta name="description" content="A private, offline-first 30-day strength, nutrition and body recomposition tracker.">
+  <title>LEAN / 30 — Fitness Tracker</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand" aria-label="LEAN 30 Fitness Tracker"><span class="brand-mark">L<span class="brand-slash">/</span></span><span>LEAN<span class="brand-dot">.</span><small>THIRTY DAY PROJECT</small></span></div>
+      <div class="sidebar-caption">YOUR WORKSPACE</div>
+      <nav class="side-nav" aria-label="Main navigation">
+        <button class="nav-btn active" data-page="overview"><span class="nav-icon">◫</span> Overview</button>
+        <button class="nav-btn" data-page="daily"><span class="nav-icon">▣</span> Daily tracker</button>
+        <button class="nav-btn" data-page="training"><span class="nav-icon">⌁</span> Training plan</button>
+        <button class="nav-btn" data-page="nutrition"><span class="nav-icon">◉</span> Nutrition guide</button>
+        <button class="nav-btn" data-page="progress"><span class="nav-icon">↗</span> Progress & trends</button>
+      </nav>
+      <div class="side-bottom">
+        <div class="side-tip"><span class="tip-label">THE RULE</span><p>Consistency beats intensity you can't sustain.</p></div>
+        <p class="privacy"><span class="privacy-dot"></span> Private by design<br><small>Saved in this browser only</small></p>
+      </div>
+    </aside>
+
+    <div class="main-shell">
+      <header class="topbar">
+        <div class="topbar-breadcrumb">PERSONAL FITNESS <span>/</span> <b id="breadcrumb">OVERVIEW</b></div>
+        <div class="topbar-actions">
+          <span class="date-small" id="today-label"></span>
+          <button class="outline-btn sm" id="backup-btn" title="Download all tracker data as JSON">↓ Backup</button>
+          <button class="icon-btn mobile-menu" id="mobile-menu" aria-label="Open navigation">☰</button>
+        </div>
+      </header>
+
+      <main class="content">
+        <section id="page-overview" class="page active" aria-label="Overview">
+          <div class="hero">
+            <div class="hero-content">
+              <span class="eyebrow light">30-DAY RECOMPOSITION PLAN <span class="eyebrow-line"></span> BUILT FOR CONSISTENCY</span>
+              <h1>Build lean.<br><em>Stay consistent.</em></h1>
+              <p>One dashboard for your training, nutrition, walking, and recovery. Small wins, logged daily.</p>
+              <div class="hero-actions"><button class="light-btn" data-goto="daily">Log today <span>↗</span></button><button class="ghost-light-btn" data-goto="training">View training plan →</button></div>
+            </div>
+            <div class="hero-emblem" aria-hidden="true"><span>30</span><small>DAYS</small></div>
+          </div>
+
+          <div class="section-heading"><div><p class="overline">THE DAILY STANDARD</p><h2>Targets that move the needle</h2></div><span class="pill">81 KG STARTING POINT</span></div>
+          <div class="metric-grid">
+            <article class="metric-card"><span class="metric-icon lime">P</span><p>PROTEIN</p><strong><span id="target-protein">160</span> <small>g</small></strong><div class="metric-sub">Daily muscle-building target</div><div class="metric-line green"></div></article>
+            <article class="metric-card"><span class="metric-icon apricot">C</span><p>CALORIES</p><strong><span id="target-calories">2,300</span> <small>kcal</small></strong><div class="metric-sub">Initial recomp starting point</div><div class="metric-line orange"></div></article>
+            <article class="metric-card"><span class="metric-icon lavender">S</span><p>DAILY STEPS</p><strong><span id="target-steps">7,000</span> <small>steps</small></strong><div class="metric-sub">Your 2 × 2 km walking habit</div><div class="metric-line purple"></div></article>
+            <article class="metric-card"><span class="metric-icon sky">Z</span><p>RECOVERY</p><strong><span id="target-sleep">7.5</span> <small>hrs</small></strong><div class="metric-sub">Sleep, hydration & rest</div><div class="metric-line blue"></div></article>
+          </div>
+
+          <div class="two-col overview-lower">
+            <article class="panel">
+              <div class="panel-heading"><div><p class="overline">YOUR 30-DAY RUN</p><h3>Consistency at a glance</h3></div><span class="pill light-pill" id="challenge-date-range"></span></div>
+              <div class="streak-strip"><div><span class="big-num" id="logged-count">0</span><span class="num-desc">/ 30 days logged</span></div><div class="streak-right"><span id="log-pct">0%</span><small>COMPLETION</small></div></div>
+              <div class="progress-track"><div class="progress-fill" id="challenge-progress"></div></div>
+              <div class="day-grid" id="overview-days" aria-label="Choose a challenge day"></div>
+              <div class="legend"><span><i class="dot completed"></i> Logged</span><span><i class="dot current"></i> Selected</span><span><i class="dot pending"></i> Pending</span></div>
+            </article>
+            <article class="panel next-up">
+              <div class="panel-heading"><div><p class="overline">SESSION PREVIEW</p><h3 id="next-session-title">Today's training</h3></div><span class="pill light-pill" id="session-day"></span></div>
+              <div class="session-label" id="session-name">Push A</div><p class="session-desc" id="session-focus"></p><ul class="session-list" id="session-exercises"></ul>
+              <button class="text-link" data-goto="training">Explore the 6-day split <span>↗</span></button>
+            </article>
+          </div>
+          <div class="footer-note"><span>NOTE</span> Belly fat cannot be spot-reduced. Track waist, strength and weekly weight averages—not just daily scale fluctuations.</div>
+        </section>
+
+        <section id="page-daily" class="page" aria-label="Daily tracker">
+          <div class="page-head"><div><p class="overline">SHOW UP. LOG IT. REPEAT.</p><h1>Daily tracker<span class="title-accent">.</span></h1><p>Capture what you actually did. Entries save automatically to this browser.</p></div><div class="day-switch"><button id="prev-day" aria-label="Previous day">‹</button><span id="selected-day-label">DAY 01</span><button id="next-day" aria-label="Next day">›</button></div></div>
+          <div class="day-selector-wrap"><div class="day-selector" id="daily-days"></div></div>
+          <div class="two-col form-columns">
+            <article class="panel"><div class="panel-heading"><div><p class="overline">01 / NUTRITION</p><h3>Fuel & macros</h3></div><span class="panel-meta" id="log-date"></span></div>
+              <div class="input-grid">
+                <label class="form-field"><span>Protein <small>g · target 160</small></span><input inputmode="decimal" type="number" min="0" max="500" step="1" data-field="protein" placeholder="0"></label>
+                <label class="form-field"><span>Calories <small>kcal · target 2300</small></span><input inputmode="decimal" type="number" min="0" max="10000" step="1" data-field="calories" placeholder="0"></label>
+                <label class="form-field"><span>Water <small>litres</small></span><input inputmode="decimal" type="number" min="0" max="15" step="0.1" data-field="water" placeholder="0.0"></label>
+                <label class="form-field"><span>Sleep <small>hours</small></span><input inputmode="decimal" type="number" min="0" max="24" step="0.1" data-field="sleep" placeholder="0.0"></label>
+              </div>
+              <div class="mini-callout"><span>SMART NOTE</span> You don't need expensive Greek yogurt. Plain curd is fine—just account for its lower protein content.</div>
+              <div class="check-row"><label class="check-label"><input type="checkbox" data-field="whey"><span>Protein shake taken</span></label><label class="check-label"><input type="checkbox" data-field="creatine"><span>Creatine covered</span></label></div>
+            </article>
+            <article class="panel"><div class="panel-heading"><div><p class="overline">02 / MOVEMENT</p><h3>Training & activity</h3></div><span class="tag" id="planned-workout">PUSH A</span></div>
+              <div class="input-grid">
+                <label class="form-field"><span>Steps <small>target 7,000</small></span><input inputmode="numeric" type="number" min="0" max="100000" step="100" data-field="steps" placeholder="0"></label>
+                <label class="form-field"><span>Body weight <small>kg · optional</small></span><input inputmode="decimal" type="number" min="0" max="300" step="0.1" data-field="weight" placeholder="81.0"></label>
+                <label class="form-field"><span>Waist <small>cm · weekly</small></span><input inputmode="decimal" type="number" min="0" max="250" step="0.1" data-field="waist" placeholder="Optional"></label>
+                <label class="form-field"><span>Session effort <small>RPE 1–10</small></span><input inputmode="numeric" type="number" min="1" max="10" step="1" data-field="rpe" placeholder="7"></label>
+              </div>
+              <div class="check-row stacked"><label class="check-label"><input type="checkbox" data-field="walk1"><span>First 2 km walk completed</span></label><label class="check-label"><input type="checkbox" data-field="walk2"><span>Second 2 km walk completed</span></label><label class="check-label"><input type="checkbox" data-field="workout"><span>Planned training / recovery completed</span></label></div>
+            </article>
+          </div>
+          <article class="panel notes-panel"><div class="panel-heading"><div><p class="overline">03 / REFLECTION</p><h3>One sentence about today</h3></div><span class="saved-status" id="saved-state">Saved locally</span></div><textarea data-field="notes" rows="3" placeholder="Energy levels, top sets, meals, small wins, or what to improve tomorrow..."></textarea></article>
+          <div class="daily-actions"><button class="primary-btn" id="mark-complete">✓ Mark day as logged</button><button class="outline-btn" id="clear-day">Clear this day's entries</button><span class="helper-text">Logging a day does not require hitting every target.</span></div>
+        </section>
+
+        <section id="page-training" class="page" aria-label="Training plan">
+          <div class="page-head"><div><p class="overline">SMARTER VOLUME. BETTER RECOVERY.</p><h1>Your training split<span class="title-accent">.</span></h1><p>Push / Pull / Legs × 2 — balanced training in roughly 60 minutes.</p></div><div class="head-tag">6 DAYS <span>+</span> 1 REST</div></div>
+          <div class="training-notice"><strong>Return-to-training rule</strong><p>For the first 1–2 weeks, use moderate loads and leave 2–3 reps in reserve. If six days impacts recovery, remove the second Legs or Push/Pull session rather than forcing volume.</p></div>
+          <div id="workout-cards" class="workout-grid"></div>
+          <article class="panel section-bottom"><p class="overline">HOW TO PROGRESS</p><h3>Quality reps beat ego lifting.</h3><div class="three-col-info"><div><strong>45–50 min</strong><span>Resistance training</span></div><div><strong>2–3 sets</strong><span>Initially per exercise</span></div><div><strong>1–3 RIR</strong><span>Reps in reserve on most sets</span></div></div><p class="fineprint">When you can complete your prescribed rep range with controlled form, increase load gradually. The two 2-km walks are already meaningful cardio; extra treadmill time is optional.</p></article>
+        </section>
+
+        <section id="page-nutrition" class="page" aria-label="Nutrition guide">
+          <div class="page-head"><div><p class="overline">SIMPLE FOOD. CONSISTENT RESULTS.</p><h1>Eat for lean muscle<span class="title-accent">.</span></h1><p>A practical Indian meal framework with regular curd, not expensive Greek yogurt twice a day.</p></div></div>
+          <div class="nutrition-lead"><div><span>THE STARTING POINT</span><strong>2,300 <small>kcal/day</small></strong><p>A provisional calorie target. Refine after 2–3 weeks using waist, strength, and average weight.</p></div><div class="macro-breakdown"><div><b>160 g</b><span>PROTEIN</span></div><div><b>65 g</b><span>FAT</span></div><div><b>~270 g</b><span>CARBS</span></div></div></div>
+          <div class="two-col nutrition-grid">
+            <article class="panel"><div class="panel-heading"><div><p class="overline">BUDGET-FRIENDLY PROTEIN</p><h3>Sample food structure</h3></div><span class="pill light-pill">ADJUST PORTIONS</span></div><div class="food-list">
+              <div class="food-row"><span class="meal-num">01</span><div><strong>Breakfast</strong><p>4 eggs + 250 ml toned milk + small measured seed portion</p></div><b>~35 g</b></div>
+              <div class="food-row"><span class="meal-num">02</span><div><strong>Lunch</strong><p>150 g cooked chicken breast + 200 g plain curd + roti/sabzi</p></div><b>~52 g</b></div>
+              <div class="food-row"><span class="meal-num">03</span><div><strong>Post-workout</strong><p>1 serving whey protein mixed with water</p></div><b>~30 g</b></div>
+              <div class="food-row"><span class="meal-num">04</span><div><strong>Evening snack</strong><p>50 g roasted chana + fruit</p></div><b>~10 g</b></div>
+              <div class="food-row"><span class="meal-num">05</span><div><strong>Dinner</strong><p>150 g low-fat paneer or 50 g dry soya chunks + dal, rice/roti, vegetables</p></div><b>~33–40 g</b></div>
+            </div><div class="food-total"><span>DAILY PROTEIN ESTIMATE</span><strong>~160–167 g</strong></div><p class="fineprint">Approximate protein only, not a complete calorie-counted menu. Labels, cooking oils, portions and raw vs cooked weight matter.</p></article>
+            <div class="stack-col">
+              <article class="panel curd-card"><p class="overline">SAVE MONEY, NOT PROTEIN</p><h3>Curd is absolutely fine.</h3><div class="curd-compare"><div><span>REGULAR CURD</span><b>~3–4 g</b><small>protein / 100 g</small></div><div><span>GREEK YOGURT</span><b>~9–10 g</b><small>protein / 100 g</small></div></div><p>Swap to 150–200 g plain homemade curd daily. Cover the protein difference with chicken, eggs, paneer or soya. Use toned-milk curd if you prefer lower fat.</p></article>
+              <article class="panel supp-card"><p class="overline">THE ONLY SUPPLEMENT YOU NEED TO START</p><h3>Whey, with perspective.</h3><p>Original MuscleTech Nitro-Tech can cover roughly 30 g protein and may include 3 g added creatine per labelled serving. Verify your exact pack, as formulas vary.</p><div class="supp-tags"><span>NO MASS GAINERS</span><span>NO FAT BURNERS</span><span>NO BCAA REQUIRED</span></div><p class="fineprint">If switching to ISO100 later, its protein is sufficient; standalone creatine is optional. Consult a clinician if you have kidney disease or relevant medical concerns.</p></article>
+            </div>
+          </div>
+        </section>
+
+        <section id="page-progress" class="page" aria-label="Progress">
+          <div class="page-head"><div><p class="overline">MEASURE WHAT MATTERS.</p><h1>Progress & trends<span class="title-accent">.</span></h1><p>Use trends across weeks, not a single weigh-in, to adjust your plan.</p></div><button class="outline-btn" id="export-csv">↓ Export CSV</button></div>
+          <div class="metric-grid progress-cards"><article class="metric-card"><p>DAYS LOGGED</p><strong id="stat-days">0 <small>/ 30</small></strong><div class="metric-sub">Your consistency score</div></article><article class="metric-card"><p>AVERAGE PROTEIN</p><strong id="stat-protein">—</strong><div class="metric-sub">Grams on days entered</div></article><article class="metric-card"><p>WORKOUTS COMPLETED</p><strong id="stat-workouts">0</strong><div class="metric-sub">Including recovery days logged</div></article><article class="metric-card"><p>AVERAGE STEPS</p><strong id="stat-steps">—</strong><div class="metric-sub">On days with step data</div></article></div>
+          <div class="two-col chart-grid"><article class="panel chart-card"><div class="panel-heading"><div><p class="overline">TREND / BODY WEIGHT</p><h3>Weight, kg</h3></div></div><div id="weight-chart" class="chart-zone"></div></article><article class="panel chart-card"><div class="panel-heading"><div><p class="overline">TREND / WAIST</p><h3>Waist, cm</h3></div></div><div id="waist-chart" class="chart-zone"></div></article></div>
+          <article class="panel weekly-panel"><div class="panel-heading"><div><p class="overline">THE BIGGER PICTURE</p><h3>Weekly check-in</h3></div><span class="panel-meta">Auto-calculated from your logs</span></div><div class="table-scroll"><table class="weekly-table"><thead><tr><th>PERIOD</th><th>DAYS LOGGED</th><th>AVG WEIGHT</th><th>LATEST WAIST</th><th>AVG PROTEIN</th><th>WORKOUTS</th></tr></thead><tbody id="weekly-rows"></tbody></table></div></article>
+          <article class="panel settings-panel"><div class="panel-heading"><div><p class="overline">CONTROL CENTER</p><h3>Challenge settings & backups</h3></div></div>
+            <div class="settings-grid"><label class="form-field"><span>Challenge start date</span><input type="date" id="start-date"></label><label class="form-field"><span>Daily protein target (g)</span><input type="number" id="setting-protein" min="50" max="350" step="5"></label><label class="form-field"><span>Daily calorie target</span><input type="number" id="setting-calories" min="1000" max="6000" step="50"></label><label class="form-field"><span>Daily steps target</span><input type="number" id="setting-steps" min="1000" max="40000" step="500"></label></div>
+            <div class="settings-actions"><button class="primary-btn" id="save-settings">Save settings</button><button class="outline-btn" id="restore-btn">↑ Restore JSON backup</button><button class="outline-btn danger" id="reset-btn">Reset all data</button><input type="file" id="restore-file" accept="application/json,.json" hidden></div><p class="fineprint">Everything is stored locally in this browser via localStorage. There is no account, server, or cross-device sync. Export a backup before clearing browser data or moving devices. Changing the challenge start date re-labels existing day numbers to the new dates.</p>
+          </article>
+        </section>
+      </main>
+      <footer class="app-footer"><span>LEAN / 30</span><span>Built for sustainable strength & body recomposition</span><span>PRIVATE • OFFLINE-FIRST</span></footer>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
